@@ -42,6 +42,34 @@ public class ListaEncadeada {
 			return true;
 		}
 		
+		public void add(int index, Object obj) {
+			
+			if(index < 0 || index > size()) {
+				throw new IndexOutOfBoundsException("Index invalido!");
+			}
+			
+			ListNode elem = this.head;
+			ListNode newElem = new ListNode(obj, null);
+			
+			if(index == 0) {
+				ListNode prox = this.head;
+				this.head = newElem;
+				this.head.next = prox;
+			}else if(index == size) {
+				this.tail.next = newElem;
+			}else {
+				for(int i = 0; i<index +1; i++) {
+					if(i == index) {
+						newElem.next = elem;
+						findPrevious(elem).next = newElem;
+					}else {
+						elem = elem.next;
+					}
+				}
+			}
+			size++;
+		}
+		
 		public void clear() {
 			this.head = this.tail = null;
 			this.size = 0;
@@ -94,8 +122,14 @@ public class ListaEncadeada {
 		
 		private ListNode findPrevious(ListNode elem) {
 			ListNode newElem = this.head;
-			while(newElem.next.element == elem) {
-				return newElem;
+			
+			while(newElem != null) {
+				if(newElem.next == elem) {
+					return newElem;
+				}else {
+					newElem = newElem.next;
+				}
+				
 			}
 			
 			return null;
@@ -103,26 +137,79 @@ public class ListaEncadeada {
 		
 		public boolean remove(Object obj) {
 			ListNode elem = this.head;
+			boolean removeu = false;
 			
 			if(obj == elem.element) {
 				this.head = this.head.next;
-				size--;
+				removeu = true;
 			}else if(obj == this.tail) {
 				this.tail = findPrevious(this.tail);
 				this.tail.next = null;
-				size--;
+				removeu = true;
 			}else {
 				for(int i=0; i<size; i++) {
 					if(elem.element == obj){
 						findPrevious(elem).next = elem.next;
-						size--;
+						removeu = true;
 						break;
 					}
 				}
 			}
-				
 			
-			return false;
+			if(!removeu) {
+				return false;
+			}
+			
+			size--;
+			return true;
+		}
+		
+		public Object remove(int index) {
+			
+			if(index < 0 || index >= size) {
+				throw new IndexOutOfBoundsException("Posicao invalida!");
+			}
+			
+			ListNode elem = this.head;
+			
+			if(index == 0) {
+				this.head = this.head.next;
+				return elem;
+			}else if(index == size-1) {
+				findPrevious(this.tail).next = null;
+				return this.tail;
+			}else {
+				for(int i = 0; i < size; i++) {
+					if(i == index) {
+						findPrevious(elem).next = elem.next;
+						break;
+					}else {
+						elem = elem.next;
+					}
+				}
+			}
+			
+			return elem;
+		}
+		
+		public Object set(int index, Object obj) {
+			
+			if(index < 0 || index >= size) {
+				throw new IndexOutOfBoundsException("Posicao invalida!");
+			}
+			ListNode elem = this.head;
+			Object remov = null;
+			
+			for(int i = 0; i < size; i++) {
+				if(index == i) {
+					remov = elem.element;
+					elem.element = obj;
+				}else {
+					elem = elem.next;
+				}
+			}
+			
+			return remov;
 		}
 
 }

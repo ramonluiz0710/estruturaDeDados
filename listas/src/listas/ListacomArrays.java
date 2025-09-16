@@ -58,7 +58,7 @@ public class ListacomArrays {
 			aumentarCapacidade();
 		}
 		
-		for(int i = 0; i<= this.size; i++) {
+		for(int i = index; i<= this.size; i++) {
 			
 			if(i==index) {
 				o = this.elements[i];
