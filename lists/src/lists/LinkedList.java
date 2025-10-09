@@ -9,10 +9,10 @@ public class LinkedList {
 	
 	/*Inner Class para criar o no da lista*/
 	private class ListNode{
-		public Object element;
-		public ListNode next;
+		private Object element;
+		private ListNode next;
 		
-		public ListNode(Object element) {
+		private ListNode(Object element) {
 			this.element = element;
 			this.next = null;
 		}
